@@ -118,8 +118,15 @@ class ReservationTestCase(APITestCase):
     
 
     def test_view_all_reservations(self):
-        response = self.client.get(self.rental_url, format='json')
+        rental_1 = Rental.objects.get(id=1)
+        Reservation.objects.create(rental=rental_1, checkin="2022-05-31", checkout="2022-06-01")
+
+        rental_2 = Rental.objects.get(id=2)
+        Reservation.objects.create(rental=rental_2, checkin="2022-05-31", checkout="2022-06-01")
+
+        response = self.client.get(self.reservation_url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
 
     def tearDown(self):
         return super().tearDown()

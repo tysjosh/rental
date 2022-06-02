@@ -34,7 +34,6 @@ class GetPostReservations(APIView):
         if Reservation.objects.filter(rental= request.data['rental']).exists():
             reservation = Reservation.objects.filter(rental= request.data['rental']).order_by("-id")[0]
             request.data['previous_reservation_id'] = reservation.id
-            print("hello")
 
         serializer = ReservationSerializer(data=request.data)
 
